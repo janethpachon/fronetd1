@@ -2,7 +2,7 @@
 
 Una plataforma moderna para comprar y vender productos digitales (plantillas, snippets, APIs, tutoriales) dirigida a desarrolladores de software.
 
-## 🚀 Características
+##  Características
 
 ✅ **Autenticación de Usuarios** - Registro e inicio de sesión seguro  
 ✅ **Catálogo de Productos** - Visualización con filtros avanzados  
@@ -13,7 +13,7 @@ Una plataforma moderna para comprar y vender productos digitales (plantillas, sn
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 - **Backend**: Node.js + Express.js
 - **Frontend**: HTML, CSS, JavaScript puro
@@ -22,7 +22,7 @@ Una plataforma moderna para comprar y vender productos digitales (plantillas, sn
 
 ---
 
-## 📦 Instalación
+##  Instalación
 
 ### Requisitos Previos
 - **Node.js** v14+ ([Descargar](https://nodejs.org))
