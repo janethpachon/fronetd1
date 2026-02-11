@@ -1,0 +1,87 @@
+@startuml
+title <b><color:DarkBlue>Consulta IA de Productos – Flujo de ejecución</color></b>
+
+
+' ====== ESTILOS ======
+skinparam participant {
+    BackgroundColor<<frontend>> #EBEDEF
+    BorderColor<<frontend>> #566573
+    FontColor<<frontend>> #2C3E50
+
+    BackgroundColor<<express>> #D6EAF8
+    BorderColor<<express>> #1B4F72
+    FontColor<<express>> #154360
+
+    BackgroundColor<<router>> #FCF3CF
+    BorderColor<<router>> #D4AC0D
+    FontColor<<router>> #7E5109
+
+    BackgroundColor<<controller>> #FADBD8
+    BorderColor<<controller>> #C0392B
+    FontColor<<controller>> #78281F
+
+    BackgroundColor<<orm>> #E8DAEF
+    BorderColor<<orm>> #6C3483
+    FontColor<<orm>> #4A235A
+
+    BackgroundColor<<ai>> #FDEDEC
+    BorderColor<<ai>> #E74C3C
+    FontColor<<ai>> #943126
+}
+
+
+' ====== PARTICIPANTES ======
+actor "Frontend JS\n(public/app.js)" as FE <<frontend>>
+participant "Express App\n(server.js)" as App <<express>>
+participant "Router /products\n(routes/productsIa.js)" as Router <<router>>
+participant "ProductsIaController\nconsultarProductosIA(req, res)" as Controller <<controller>>
+participant "Sequelize Model\nProductView\n(models/index.js)" as ProductView <<orm>>
+participant "OpenAI API\n(gpt-4.1-mini)" as OpenAI <<ai>>
+
+
+== <b><color:DarkGreen>Ejecución – Consulta con IA</color></b> ==
+
+FE -> App: POST /products/ia-consulta\nBody: { question }
+activate App
+
+App -> Router: Delegar por prefijo /products
+activate Router
+
+Router -> Controller: consultarProductosIA(req, res)
+activate Controller
+
+
+' ================ CONTROLADOR ================
+Controller -> ProductView: findAll()
+activate ProductView
+
+note right of ProductView
+Sequelize obtiene todos los productos usando\n
+la vista <b>vw_productos_extendida</b>.
+No se escribe SQL manualmente.
+end note
+
+ProductView --> Controller: Lista de productos (JSON)
+deactivate ProductView
+
+
+' ================ PREPARACIÓN PARA IA ================
+Controller -> Controller: Construir JSON con productos\n+ Pregunta del usuario
+
+
+' ================ LLAMADA A OPENAI ================
+Controller -> OpenAI: responses.create({ model, input })
+activate OpenAI
+
+OpenAI --> Controller: Respuesta en lenguaje natural
+deactivate OpenAI
+
+
+' ================ RESPUESTA AL CLIENTE ================
+Controller -> App: res.json({ answer })
+deactivate Controller
+
+App --> FE: 200 OK\nBody: { answer }
+deactivate App
+
+@enduml

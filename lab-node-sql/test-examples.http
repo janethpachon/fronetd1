@@ -1,0 +1,140 @@
+### DevMarket API - Ejemplos de Requests
+# Pruebas con REST Client o Postman
+
+@host = http://localhost:3000/api
+
+### ========= AUTENTICACIÓN (HU-01) =========
+
+### Registrar nuevo usuario
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+  "Email": "nuevousuario@example.com",
+  "FullName": "Nuevo Usuario",
+  "Password": "password123",
+  "PasswordConfirm": "password123"
+}
+
+### Iniciar sesión
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "Email": "juan@example.com",
+  "Password": "pass123"
+}
+
+### Obtener perfil de usuario
+GET {{host}}/auth/profile/1
+
+---
+
+### ========= PRODUCTOS (HU-02) =========
+
+### Obtener todos los productos
+GET {{host}}/products
+
+### Obtener productos filtrados por categoría
+GET {{host}}/products?categoryId=1
+
+### Obtener productos por tecnología
+GET {{host}}/products?technology=React
+
+### Obtener productos por dificultad
+GET {{host}}/products?difficulty=beginner
+
+### Obtener productos con múltiples filtros
+GET {{host}}/products?categoryId=1&technology=Node.js&difficulty=intermediate
+
+### Obtener detalle de un producto
+GET {{host}}/products/1
+
+### Obtener categorías disponibles
+GET {{host}}/products/categories/all
+
+### Obtener tecnologías disponibles
+GET {{host}}/products/technologies/all
+
+### Crear nuevo producto (Admin)
+POST {{host}}/products
+Content-Type: application/json
+
+{
+  "ProductName": "Plantilla E-commerce",
+  "Description": "Plantilla completa de tienda online con admin",
+  "Price": 29.99,
+  "Technology": "React",
+  "DifficultyLevel": "intermediate",
+  "CategoryID": 1,
+  "AdminID": 1,
+  "FileURL": "/uploads/ecommerce.zip"
+}
+
+### Actualizar producto (Admin)
+PUT {{host}}/products/1
+Content-Type: application/json
+
+{
+  "ProductName": "Plantilla E-commerce Actualizada",
+  "Price": 39.99,
+  "DifficultyLevel": "advanced"
+}
+
+### Eliminar producto (Admin)
+DELETE {{host}}/products/1
+
+---
+
+### ========= CARRITO (HU-02) =========
+
+### Agregar producto al carrito
+POST {{host}}/cart
+Content-Type: application/json
+
+{
+  "UserID": 2,
+  "ProductID": 1,
+  "Quantity": 1
+}
+
+### Obtener carrito del usuario
+GET {{host}}/cart/2
+
+### Eliminar item del carrito
+DELETE {{host}}/cart/1
+
+### Vaciar carrito completo
+DELETE {{host}}/cart/clear/2
+
+---
+
+### ========= ÓRDENES =========
+
+### Crear orden (desde carrito)
+POST {{host}}/orders
+Content-Type: application/json
+
+{
+  "UserID": 2
+}
+
+### Obtener órdenes del usuario
+GET {{host}}/orders/user/2
+
+### Obtener detalle de una orden
+GET {{host}}/orders/1
+
+### Obtener todas las órdenes (Admin)
+GET {{host}}/orders
+
+### Descargar producto (verificar acceso)
+GET {{host}}/orders/download/2/1
+
+---
+
+### NOTAS PARA PRUEBAS:
+# 1. Reemplaza los IDs (1, 2, etc.) con valores existentes en tu BD
+# 2. Para REST Client en VS Code: Instala la extensión "REST Client"
+# 3. Para Postman: Importa estos ejemplos y modifica según necesites
+# 4. Usa el test.http file directo en VS Code con REST Client

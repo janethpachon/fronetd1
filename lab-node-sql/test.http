@@ -1,0 +1,61 @@
+### -----------------------------------------
+### 1. Obtener todos los productos (vista extendida)
+### -----------------------------------------
+GET http://localhost:3000/products
+Accept: application/json
+
+
+### -----------------------------------------
+### 2. Obtener un producto por ID
+### -----------------------------------------
+GET http://localhost:3000/products/1
+Accept: application/json
+
+
+### -----------------------------------------
+### 3. Crear un nuevo producto
+### (Recuerda que ProductID se autogenera)
+### -----------------------------------------
+POST http://localhost:3000/products
+Content-Type: application/json
+
+{
+  "ProductName": "Te Verde Japonés",
+  "SupplierID": 2,
+  "CategoryID": 1,
+  "Unit": "Caja x 20 sobres",
+  "Price": 25.50
+}
+
+
+### -----------------------------------------
+### 4. Actualizar un producto
+### -----------------------------------------
+PUT http://localhost:3000/products/1
+Content-Type: application/json
+
+{
+  "ProductName": "Chai Premium Modificado",
+  "SupplierID": 1,
+  "CategoryID": 1,
+  "Unit": "10 cajas",
+  "Price": 22.00
+}
+
+
+### -----------------------------------------
+### 5. Eliminar producto
+### -----------------------------------------
+DELETE http://localhost:3000/products/1
+Accept: application/json
+
+
+### -----------------------------------------
+### 6. Consulta IA sobre los productos
+### -----------------------------------------
+POST http://localhost:3000/products/ia-consulta
+Content-Type: application/json
+
+{
+  "question": "¿Cuál es el producto más costoso y qué proveedor lo vende?"
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevMarket - Tienda Digital de Productos para Desarrolladores</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar-header">
+        <h1 class="logo">📱 DevMarket</h1>
+        <span class="tagline">Productos digitales para desarrolladores</span>
+      </div>
+      <div class="navbar-menu">
+        <button id="btnLogout" class="btn btn-logout" style="display:none;">Cerrar Sesión</button>
+        <span id="userEmail" class="user-email" style="display:none;"></span>
+        <button id="btnCart" class="btn btn-cart" style="display:none;">🛒 Carrito (<span id="cartCount">0</span>)</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Auth Section (HU-01) -->
+    <section id="authSection" class="auth-section">
+      <div class="auth-container">
+        <div class="auth-card">
+          <h2 id="authTitle">Iniciar Sesión</h2>
+          
+          <!-- Login Form -->
+          <form id="loginForm" class="auth-form">
+            <div class="form-group">
+              <label for="loginEmail">Email:</label>
+              <input type="email" id="loginEmail" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Contraseña:</label>
+              <input type="password" id="loginPassword" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+            <p class="text-center">¿No tienes cuenta? <a href="#" id="toggleRegister">Registrarse</a></p>
+          </form>
+
+          <!-- Register Form -->
+          <form id="registerForm" class="auth-form" style="display:none;">
+            <div class="form-group">
+              <label for="registerName">Nombre Completo:</label>
+              <input type="text" id="registerName" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="registerEmail">Email:</label>
+              <input type="email" id="registerEmail" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">Contraseña:</label>
+              <input type="password" id="registerPassword" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
+              <label for="registerPasswordConfirm">Confirmar Contraseña:</label>
+              <input type="password" id="registerPasswordConfirm" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+            <p class="text-center">¿Ya tienes cuenta? <a href="#" id="toggleLogin">Iniciar Sesión</a></p>
+          </form>
+        </div>
+
+        <!-- Demo Info -->
+        <div class="demo-info">
+          <h3>Credenciales de Prueba</h3>
+          <p><strong>Email:</strong> juan@example.com</p>
+          <p><strong>Contraseña:</strong> pass123</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main App Section (HU-02) -->
+    <section id="appSection" class="app-section" style="display:none;">
+      
+      <!-- Filters (HU-02) -->
+      <div class="filters-section">
+        <h2>Explora Nuestros Productos</h2>
+        <div class="filters">
+          <div class="filter-group">
+            <label for="filterCategory">Categoría:</label>
+            <select id="filterCategory">
+              <option value="">Todas las categorías</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="filterTechnology">Tecnología:</label>
+            <select id="filterTechnology">
+              <option value="">Todas las tecnologías</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="filterDifficulty">Nivel de Dificultad:</label>
+            <select id="filterDifficulty">
+              <option value="">Todos los niveles</option>
+              <option value="beginner">Principiante</option>
+              <option value="intermediate">Intermedio</option>
+              <option value="advanced">Avanzado</option>
+            </select>
+          </div>
+          
+          <button id="btnFilter" class="btn btn-primary">Filtrar</button>
+          <button id="btnClearFilters" class="btn btn-secondary">Limpiar Filtros</button>
+        </div>
+      </div>
+
+      <!-- Products Grid (HU-02) -->
+      <div class="products-section">
+        <h2>Productos Disponibles</h2>
+        <div id="productsGrid" class="products-grid">
+          <!-- Los productos se cargarán aquí -->
+        </div>
+        <div id="noProducts" class="no-products" style="display:none;">
+          <p>No se encontraron productos con los filtros seleccionados.</p>
+        </div>
+      </div>
+
+      <!-- IA Assistant Section -->
+      <div class="ia-section">
+        <h2>🤖 Asistente IA - Preguntas sobre Productos</h2>
+        
+        <div class="ia-container">
+          <div class="ia-chat">
+            <div id="iaResponses" class="ia-responses">
+              <div class="ia-message bot">
+                <p>¡Hola! Soy tu asistente IA. Puedo ayudarte a encontrar productos, responder preguntas sobre tecnologías o recomendarte productos según tus necesidades.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="ia-input-area">
+            <div class="ia-input-group">
+              <input type="text" id="iaQuestion" class="ia-input" placeholder="Hazme una pregunta sobre los productos..." maxlength="500">
+              <button id="btnAskIA" class="btn btn-primary">Enviar</button>
+            </div>
+            
+            <div class="ia-recommendations">
+              <h4>💡 Obtener Recomendaciones</h4>
+              <div class="recommendation-filters">
+                <select id="recTechnology" class="rec-filter">
+                  <option value="">- Selecciona tecnología -</option>
+                </select>
+                <select id="recDifficulty" class="rec-filter">
+                  <option value="">- Nivel de dificultad -</option>
+                  <option value="beginner">Principiante</option>
+                  <option value="intermediate">Intermedio</option>
+                  <option value="advanced">Avanzado</option>
+                </select>
+                <button id="btnGetRecommendations" class="btn btn-secondary">Recomendar</button>
+              </div>
+              <div id="recommendationsResult" class="recommendations-result" style="display:none;">
+                <p id="recommendationsText"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div id="cartSidebar" class="cart-sidebar" style="display:none;">
+    <div class="cart-header">
+      <h3>🛒 Carrito de Compras</h3>
+      <button id="closeSidebar" class="btn-close">&times;</button>
+    </div>
+    <div id="cartItems" class="cart-items">
+      <!-- Items del carrito -->
+    </div>
+    <div id="emptyCart" class="empty-cart">
+      <p>Tu carrito está vacío</p>
+    </div>
+    <div class="cart-summary">
+      <div class="total-row">
+        <span>Total:</span>
+        <span id="cartTotal">$0.00</span>
+      </div>
+      <button id="btnCheckout" class="btn btn-primary btn-block">Proceder al Pago</button>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div id="productModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="productModalTitle"></h3>
+        <button id="closeModal" class="btn-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="product-detail">
+          <div class="product-info">
+            <p><strong>Descripción:</strong> <span id="productDescription"></span></p>
+            <p><strong>Tecnología:</strong> <span id="productTechnology"></span></p>
+            <p><strong>Nivel:</strong> <span id="productLevel"></span></p>
+            <p><strong>Categoría:</strong> <span id="productCategory"></span></p>
+            <p><strong>Precio:</strong> <span id="productPrice" class="price"></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="addToCartBtn" class="btn btn-primary">Agregar al Carrito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay" class="overlay" style="display:none;" onclick="closeAllModals()"></div>
+
+  <script src="app.js"></script>
+</body>

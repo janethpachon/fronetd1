@@ -1,0 +1,68 @@
+@startuml
+title <b><color:DarkBlue>Crear Producto – Flujo de ejecución backend</color></b>
+
+
+' ====== ESTILOS BÁSICOS ======
+skinparam participant {
+    BackgroundColor<<frontend>> #EBEDEF
+    BorderColor<<frontend>> #566573
+    FontColor<<frontend>> #2C3E50
+
+    BackgroundColor<<express>> #D6EAF8
+    BorderColor<<express>> #1B4F72
+    FontColor<<express>> #154360
+
+    BackgroundColor<<router>> #FCF3CF
+    BorderColor<<router>> #D4AC0D
+    FontColor<<router>> #7E5109
+
+    BackgroundColor<<controller>> #FADBD8
+    BorderColor<<controller>> #C0392B
+    FontColor<<controller>> #78281F
+
+    BackgroundColor<<orm>> #E8DAEF
+    BorderColor<<orm>> #6C3483
+    FontColor<<orm>> #4A235A
+
+    BackgroundColor<<db>> #D5F5E3
+    BorderColor<<db>> #1D8348
+    FontColor<<db>> #0B5345
+}
+
+actor "Frontend JS\n(public/app.js)" as FE <<frontend>>
+participant "Express App\n(server.js)" as App <<express>>
+participant "Router /products\n(routes/products.js)" as Router <<router>>
+participant "ProductsController\ncreateProduct(req, res)" as Controller <<controller>>
+participant "Sequelize Model\nProduct" as ProductModel <<orm>>
+database "MySQL\nBD northwind\nTabla products" as DB <<db>>
+
+
+== <b><color:DarkGreen>Ejecución – Crear producto</color></b> ==
+
+FE -> App: POST /products\nBody: JSON {ProductName, ...}
+activate App
+
+App -> Router: Delegar por prefijo /products
+activate Router
+
+Router -> Controller: createProduct(req, res)
+activate Controller
+
+Controller -> ProductModel: Product.create({ datos del producto })
+activate ProductModel
+
+ProductModel -> DB: INSERT INTO products (...)
+activate DB
+DB --> ProductModel: OK + ProductID generado
+deactivate DB
+
+ProductModel --> Controller: Instancia Product creada
+deactivate ProductModel
+
+Controller -> App: res.status(201).json(productoCreado)
+deactivate Controller
+
+App --> FE: 201 Created\nBody: JSON del nuevo producto
+deactivate App
+
+@enduml
